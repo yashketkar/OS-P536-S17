@@ -1,0 +1,3 @@
+What is Orphan and Zombie processes?
+
+What are the changes that occur when the child process calls the exec system call to execute a new program?
