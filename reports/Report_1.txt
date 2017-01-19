@@ -1,3 +1,13 @@
-What is Orphan and Zombie processes?
+1. What is Orphan and Zombie processes?
 
-What are the changes that occur when the child process calls the exec system call to execute a new program?
+A child process whose parent process no more exists i.e. it is either finished or terminated without waiting for its child process to terminate is called an orphan process. This happens if the parent process did not call wait() but terminated.
+
+A process which still has an entry in the process table after it finishes execution, is known as a zombie process.
+It is known as a zombie process till it is removed from the process table. The parent process then reads the exit status
+of the finished process by using wait(), this process is called reaping. The child process entry is then removed from the process table. It is then no longer a zombie process.
+
+2. What are the changes that occur when the child process calls the exec system call to execute a new program?
+
+The process which is running first gets the command to be executed. It then executes a fork() system call, which starts a
+new process, this new child process now executes the exec() call which replaces the text and user data segments. It then
+runs the system call with the provided arguments.
