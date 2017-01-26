@@ -3,6 +3,6 @@
 #define PROCESS_RING_EXIT_BAD_COUNT -1
 #define PROCESS_RING_EXIT_BAD_ARGS -2
 
-extern int n;
+extern volatile int *inbox;
 
-void decrement(int);
+void process_ring(int);
