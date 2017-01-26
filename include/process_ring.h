@@ -3,6 +3,6 @@
 #define PROCESS_RING_EXIT_BAD_COUNT -1
 #define PROCESS_RING_EXIT_BAD_ARGS -2
 
-extern int32 n;
+extern int n;
 
-void decrement(int32);
+void decrement(int);
