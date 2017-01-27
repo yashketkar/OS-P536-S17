@@ -1,29 +1,52 @@
 #include <process_ring.h>
 
-int process_id;
 int round_no;
 
 void process_ring(int pid) {
+	int process_id;
 	process_id = pid;
 	round_no = 0;
 
-	kprintf("1. Countdown: %d\n\n", *(inbox+process_id));
+	kprintf("inbox %d\n\n", inbox[process_id]);
+	kprintf("getpid : %d\n\n", getpid());	
 
-
-	while(*(inbox+process_id) > 0)
+	while(inbox[0]>0)
 	{
-
-		kprintf("Process ID : %d\n", process_id);
-		kprintf("Countdown: %d\n\n", *(inbox+process_id));
-
 		if(process_id == 3)
 		{
-		*(inbox) = *(inbox+process_id) -1;	
+		inbox[0] = inbox[process_id] - 1;
+		// kprintf("getpid : %d\n\n", getpid());	
+		// kprintf("process_id : %d\n\n", process_id);	
+		kprintf("Countdown: %d\n\n",inbox[process_id]);
 		}
 		else
 		{
-		*(inbox+process_id+1) = *(inbox+process_id) -1;	
+		inbox[process_id+1] = inbox[process_id] - 1;
+		// kprintf("getpid : %d\n\n", getpid());	
+		// kprintf("process_id : %d\n\n", process_id);	
+		kprintf("Countdown: %d\n\n",inbox[process_id]);
 		}
-
+		yield();
 	}
+
+
+//	*(inbox+) = *(inbox+process_id) -1;
+
+	// while(*(inbox) > 0)
+	// {
+	// 	kprintf("Process ID : %d\n", process_id);
+	// 	kprintf("Countdown: %d\n\n", *(inbox+process_id));
+
+	// 	if(process_id == 3)
+	// 	{
+	// 	*(inbox) = *(inbox+process_id) - 1;	
+	// 	kprintf("process_id is %d\n\n", process_id);
+	// 	kprintf("Process 3 and inbox value is %d\n\n", *(inbox));
+	// 	}
+	// 	else
+	// 	{
+	// 	*(inbox+process_id+1) = *(inbox+process_id) -1;
+	// 	}
+
+	// }
 }
