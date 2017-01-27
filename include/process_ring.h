@@ -4,5 +4,6 @@
 #define PROCESS_RING_EXIT_BAD_ARGS -2
 
 extern volatile int inbox[4];
+extern volatile int ring[4];
 
 void process_ring(int);

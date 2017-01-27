@@ -10,6 +10,7 @@
 // volatile int *inbox;
 
 volatile int inbox[4];
+volatile int ring[4];
 
 int NUM_PROCESSES;
 int num_rounds;
@@ -42,11 +43,14 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 		// my_inbox[0]=countdown;
 		// inbox = my_inbox;
 		inbox[0] = countdown;
+
 		int i = 0;
 		for(i=0;i<NUM_PROCESSES;i++)
 		{
-		resume(create(process_ring, 1024, 20, "process_ring", 1, i));
+		ring[i] = create(process_ring, 1024, 20, "process_ring", 1, i);
 		}
+
+		resume(ring[0]);
 	}
 
 	/* Check argument count */

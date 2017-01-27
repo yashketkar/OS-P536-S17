@@ -1,11 +1,8 @@
 #include <process_ring.h>
 
-int round_no;
-
 void process_ring(int pid) {
 	int process_id;
-	process_id = pid;
-	round_no = 0;
+	process_id = pid;//getpid();
 
 	kprintf("inbox %d\n\n", inbox[process_id]);
 	kprintf("getpid : %d\n\n", getpid());	
@@ -16,8 +13,10 @@ void process_ring(int pid) {
 		{
 		inbox[0] = inbox[process_id] - 1;
 		// kprintf("getpid : %d\n\n", getpid());	
-		// kprintf("process_id : %d\n\n", process_id);	
+		// kprintf("process_id : %d\n\n", process_id);
 		kprintf("Countdown: %d\n\n",inbox[process_id]);
+		// resume(getpid(2)+1);
+		// suspend(getpid());
 		}
 		else
 		{
@@ -25,8 +24,14 @@ void process_ring(int pid) {
 		// kprintf("getpid : %d\n\n", getpid());	
 		// kprintf("process_id : %d\n\n", process_id);	
 		kprintf("Countdown: %d\n\n",inbox[process_id]);
+
 		}
-		yield();
+		// yield();
+		int val;
+		val = (pid + 1) % 4;
+		resume(ring[val]);
+		suspend(getpid());
+
 	}
 
 
