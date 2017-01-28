@@ -2,6 +2,22 @@
 
 ### Brief Working
 
+In this program we create 'p' number of process and have them countdown from p*r to 0.
+Where 'r' is the number of rounds. We then create these processes using the create system call.
+Each process will then decrement the counter and store the count in the inbox
+of the next process. This process will then read the value continue doing the same.
+The last process will then resume the first process for 'r' number of rounds.
+
+In the hang version the process creates a deadlock and suspends its own process,
+thus the program execution does not continue.
+
+In the infinite loop version, when the process sends the value to the next process, it
+does not decrement its value and thus the processes keep on switching in an infinite loop.
+
+In the chaos version, all the process are resumes, this causes xinu to take control over the process,
+they are scheduled according to Xinu's 'resched' policy in a round robin manner. But the processes
+still do have varying time slices for each process and thus are printed out in a chaotic or random manner.
+
 
 ### Input Validations
 - Checked for --help param
@@ -118,12 +134,12 @@ Tejas Kumthekar (tejakumt@indiana.edu)
 
 - Why does your program hang? What is the name of this behavior in an operating system? 
 An individual process or thread can get stuck due to many possible reasons like waiting for a resource, deadlocks, badly written program logic (infinite loops etc), race conditions, hardware issues etc. 
-This is called a hang. A system hang can be broadly classified into an infinite loop or an indefinite wait.
+This is called a hang. A system hang can be broadly classified into an infinite loop or an indefinite wait. Specifically in our program the process suspends itself and cannot resume its own or any other process, thus our program hangs.
 (Ref. http://www.cse.unsw.edu.au/~yueli/papers/issre12.pdf) 
 
 - Why does your program go into an infinite loop? What is the name of this behavior in an operating system?
 A program can go into an infinite loop either because it never meets a terminating condition, or it fires itself continuously (recursively).
-In this case we are not decrementing the countdown, and thus the stopping condition is never met,resulting in  an infinite loop.
+In this case we are not decrementing the countdown, and thus the stopping condition is never met,resulting in an infinite loop.
 
 - Why does your program print numbers out of order? What is the name of this behavior in an operating system? There is no synchronization between the processes, and since all of them run parallely, it results in a race condition. Xinu's resched makes the selection according to the scheduling policy - 'At any time, the highest priority eligible process is executing. Among
 processes with equal priority scheduling is round-robin.'
