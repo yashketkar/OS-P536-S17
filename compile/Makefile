@@ -9,6 +9,12 @@
 #########################################################################
 include Makedefs
 
+#ubuntu VM location of libgcc
+LIBGCC_LOC      =      /usr/lib/gcc/arm-none-eabi/4.9.3
+
+#SoIC linux machine location of libgcc
+#LIBGCC_LOC      =      /l/arm2/devtools/lib/gcc/arm-none-eabi/4.8.4
+
 NODE=0
 GPORT=556${NODE}
 

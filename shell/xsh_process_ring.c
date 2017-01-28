@@ -7,9 +7,9 @@
 #include <stddef.h>
 #include <process_ring.h>
 
-
 volatile int inbox[101];
 volatile int ring[101];
+volatile int round;
 
 int NUM_PROCESSES;
 int num_rounds;
@@ -49,6 +49,7 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 		}
 
 		resume(ring[0]);
+		return 0;
 	}
 
 	/* Check argument count */
@@ -115,12 +116,10 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 
 	countdown = NUM_PROCESSES * num_rounds;
 	inbox[0] = countdown;
-
 	for(i=0;i<NUM_PROCESSES;i++)
 	{
-	ring[i] = create(process_ring, 1024, 20, "process_ring", 2, i, NUM_PROCESSES);
+	ring[i] = create(process_ring, 1024, 20, "process_ring", 2, i, NUM_PROCESSES, flag);
 	}
-
 	resume(ring[0]);
 
 	return 0;
