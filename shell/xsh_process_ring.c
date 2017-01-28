@@ -27,7 +27,7 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 	version = 1;		
 	/* Output info for '--help' argument */
 
-	if (nargs == 2 && strncmp(args[1], "--help", 7) == 0) {
+	if (nargs == 2 && (strncmp(args[1], "--help", 7) == 0) || (strncmp(args[1], "-h", 3) == 0)) {
 		printf("Usage: %s\n\n", args[0]);
 		printf("Description:\n");
 		printf("\tPrints the countdown of numbers\n");
