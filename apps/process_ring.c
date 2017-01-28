@@ -1,6 +1,6 @@
 #include <process_ring.h>
 
-void process_ring(int pid, int NUM_PROCESSES, int flag) {
+void process_ring(int pid, int NUM_PROCESSES, int version) {
 	int process_id = pid;
 	while(inbox[0] > 0)
 	{

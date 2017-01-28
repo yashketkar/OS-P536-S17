@@ -7,4 +7,4 @@ extern volatile int inbox[101];
 extern volatile int ring[101];
 extern volatile int round;
 
-void process_ring(int, int);
+void process_ring(int, int, int);

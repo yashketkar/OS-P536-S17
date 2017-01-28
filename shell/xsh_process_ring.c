@@ -14,7 +14,7 @@ volatile int round;
 int NUM_PROCESSES;
 int num_rounds;
 int countdown;
-
+int version;
 
 /*------------------------------------------------------------------------
  * xsh_process_ring - Print countdown of numbers
@@ -24,7 +24,7 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 
 	NUM_PROCESSES = 4;
 	num_rounds = 5;
-			
+	version = 1;		
 	/* Output info for '--help' argument */
 
 	if (nargs == 2 && strncmp(args[1], "--help", 7) == 0) {
@@ -45,7 +45,7 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 		int i = 0;
 		for(i=0;i<NUM_PROCESSES;i++)
 		{
-		ring[i] = create(process_ring, 1024, 20, "process_ring", 2, i, NUM_PROCESSES);
+		ring[i] = create(process_ring, 1024, 20, "process_ring", 3, i, NUM_PROCESSES, version);
 		}
 
 		resume(ring[0]);
@@ -103,6 +103,18 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 		}
 		if(strncmp(args[i], "--version", 10) == 0 || strncmp(args[i], "-v", 3) == 0){
 			command = 3;
+			if(strncmp(args[i+1], "work", 5) == 0){
+				version = 1;
+			}
+			if(strncmp(args[i+1], "hang", 5) == 0){
+				version = 2;
+			}
+			if(strncmp(args[i+1], "loop", 5) == 0){
+				version = 3;
+			}
+			if(strncmp(args[i+1], "chaos", 6) == 0){
+				version = 4;
+			}
 		}
 
 		//printf("command: %s\n", command);
@@ -118,7 +130,7 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 	inbox[0] = countdown;
 	for(i=0;i<NUM_PROCESSES;i++)
 	{
-	ring[i] = create(process_ring, 1024, 20, "process_ring", 2, i, NUM_PROCESSES, flag);
+	ring[i] = create(process_ring, 1024, 20, "process_ring", 3, i, NUM_PROCESSES, version);
 	}
 	resume(ring[0]);
 
