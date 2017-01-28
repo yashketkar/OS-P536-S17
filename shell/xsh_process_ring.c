@@ -7,14 +7,14 @@
 #include <stddef.h>
 #include <process_ring.h>
 
-// volatile int *inbox;
 
-volatile int inbox[4];
-volatile int ring[4];
+volatile int inbox[101];
+volatile int ring[101];
 
 int NUM_PROCESSES;
 int num_rounds;
 int countdown;
+
 
 /*------------------------------------------------------------------------
  * xsh_process_ring - Print countdown of numbers
@@ -22,9 +22,12 @@ int countdown;
  */
 shellcmd xsh_process_ring(int nargs, char *args[]) {
 
+	NUM_PROCESSES = 4;
+	num_rounds = 5;
+			
 	/* Output info for '--help' argument */
 
-	if (nargs == 1 && strncmp(args[1], "--help", 7) == 0) {
+	if (nargs == 2 && strncmp(args[1], "--help", 7) == 0) {
 		printf("Usage: %s\n\n", args[0]);
 		printf("Description:\n");
 		printf("\tPrints the countdown of numbers\n");
@@ -35,27 +38,28 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 	}
 
 	if (nargs == 1) {
-		//printf("Hello %s, Welcome to the world of Xinu!!\n",args[1]);
-		NUM_PROCESSES = 4;
-		num_rounds = 5;
+		//default mode
 		countdown = NUM_PROCESSES * num_rounds;
-		// int my_inbox[NUM_PROCESSES];
-		// my_inbox[0]=countdown;
-		// inbox = my_inbox;
 		inbox[0] = countdown;
 
 		int i = 0;
 		for(i=0;i<NUM_PROCESSES;i++)
 		{
-		ring[i] = create(process_ring, 1024, 20, "process_ring", 1, i);
+		ring[i] = create(process_ring, 1024, 20, "process_ring", 2, i, NUM_PROCESSES);
 		}
 
 		resume(ring[0]);
 	}
 
 	/* Check argument count */
+	if(nargs%2 == 0){
+		//command name + set of parameters is always odd
+		fprintf(stderr, "Please enter correct arguments\n");
+		return 1;
+	}
 
-	if (nargs > 1) {
+
+	if (nargs > 7) {
 		fprintf(stderr, "%s: too many arguments\n", args[0]);
 		fprintf(stderr, "Try '%s --help' for more information\n",
 			args[0]);
@@ -69,6 +73,55 @@ shellcmd xsh_process_ring(int nargs, char *args[]) {
 		return 1;
 	}
 
+	//true input
+	int i = 0;
+	int command = 0;
+	
+	for(i=1; i<nargs; i+=2){
+		printf("Cmd Arg: %s\n", args[i]);
+		//int command = validateAndGetCommand(args[i]);
+		if(strncmp(args[i], "--processes", 12) == 0 || strncmp(args[i], "-p", 3) == 0){
+			command = 1;
+			NUM_PROCESSES = atoi(args[i+1]);
+			if(NUM_PROCESSES > 100 || NUM_PROCESSES < 1){
+				//too many processes are denied
+				printf("Too Many or too less Processes\n");
+				NUM_PROCESSES = 4;
+			}
+			printf("Number of processes = %d\n", NUM_PROCESSES);
+		}
+		if(strncmp(args[i], "--rounds", 9) == 0 || strncmp(args[i], "-r", 3) == 0){
+			command = 2;
+			num_rounds = atoi(args[i+1]);
+			if(num_rounds < 1){
+				//too many processes are denied
+				printf("Too Many or too less Rounds\n");
+				num_rounds = 5;
+			}
+			printf("Number of rounds = %d\n", num_rounds);
+		}
+		if(strncmp(args[i], "--version", 10) == 0 || strncmp(args[i], "-v", 3) == 0){
+			command = 3;
+		}
+
+		//printf("command: %s\n", command);
+		
+		if(command == 0){
+			fprintf(stderr, "Please enter correct arguments\n");
+			return 0;
+		}
+
+	}
+
+	countdown = NUM_PROCESSES * num_rounds;
+	inbox[0] = countdown;
+
+	for(i=0;i<NUM_PROCESSES;i++)
+	{
+	ring[i] = create(process_ring, 1024, 20, "process_ring", 2, i, NUM_PROCESSES);
+	}
+
+	resume(ring[0]);
 
 	return 0;
 }
