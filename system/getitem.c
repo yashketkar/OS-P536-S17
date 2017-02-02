@@ -17,6 +17,11 @@ pid32	getfirst(
 		return EMPTY;
 	}
 
+	if(isbadqid(q)){
+	// returns empty if the given qid is less than zero or greater than NQENT-1
+		return EMPTY;
+	}
+
 	head = queuehead(q);
 	return getitem(queuetab[head].qnext);
 }
@@ -33,6 +38,11 @@ pid32	getlast(
 	pid32 tail;
 
 	if (isempty(q)) {
+		return EMPTY;
+	}
+
+	if(isbadqid(q)){
+	// returns empty if the given qid is less than zero or greater than NQENT-1
 		return EMPTY;
 	}
 
