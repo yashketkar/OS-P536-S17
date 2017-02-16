@@ -2,12 +2,12 @@
 #include<producer.h>
 
 void producer(int mutex, int items, int spaces) {
-	spaces.wait();
+	wait(spaces);
 	
-	mutex.wait();
+	wait(mutex);
 	buffer = buffer + 1;	
 	kprintf("Producer: %d\n", buffer);
-	mutex.signal();
+	signal(mutex);
 	
-	items.signal();
+	signal(items);
 }

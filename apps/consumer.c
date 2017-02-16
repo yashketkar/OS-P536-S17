@@ -2,12 +2,12 @@
 #include<consumer.h>
 
 void consumer(int mutex, int items, int spaces) {
-	items.wait();
+	wait(items);
 	
-	mutex.wait();
+	wait(mutex);
 	buffer = buffer - 1;
 	kprintf("Consumer: %d\n", buffer);
-	mutex.signal();
+	signal(mutex);
 
-	spaces.signal();
+	signal(spaces);
 }

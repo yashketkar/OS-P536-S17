@@ -27,9 +27,9 @@ shellcmd xsh_producer_consumer(int nargs, char *args[]) {
 	int items;
 	int spaces;
 	
-	mutex = screate(1);
-	items = screate(0);
-	spaces = screate(buffer); //buffer size
+	mutex = semcreate(1);
+	items = semcreate(0);
+	spaces = semcreate(buffer); //buffer size
 	
 	//create a producer process
 	resume(create(producer, 1024, 20, "producer", 3, mutex, items, spaces));
