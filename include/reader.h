@@ -1,1 +1,1 @@
-void reader(int, int);
+void reader(int, int, int, int);

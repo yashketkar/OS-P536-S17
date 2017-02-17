@@ -21,7 +21,7 @@ shellcmd xsh_producer_consumer(int nargs, char *args[]) {
 	cmd usage: producer_consumer <buffer size in bytes> <bytes to send> <max delay>
 	*/
 	
-	buffer = 5;	
+	buffer = atoi(args[1]);	
 
 	int mutex;
 	int items;

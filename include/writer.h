@@ -1,1 +1,1 @@
-void writer(int);
+void writer(int, int, int);
