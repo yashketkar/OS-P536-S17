@@ -87,3 +87,6 @@ extern 	shellcmd xsh_dining_philosophers	(int32,	char *[]);
 
 /* in file xsh_readers_writers.c */
 extern shellcmd xsh_readers_writers (int32, char *[]);
+
+/* in file xsh_producer_consumer.c */
+extern shellcmd xsh_producer_consumer (int32, char *[]);
