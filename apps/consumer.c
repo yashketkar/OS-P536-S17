@@ -2,6 +2,7 @@
 #include<consumer.h>
 
 void consumer(int mutex, int items, int spaces, int count) {
+	while(1){	
 	wait(items);
 	
 	wait(mutex);
@@ -15,4 +16,5 @@ void consumer(int mutex, int items, int spaces, int count) {
 
 	signal(spaces);
 	//rand_delay(maxDelay);
+	}
 }

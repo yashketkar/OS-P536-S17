@@ -4,6 +4,7 @@
 
 void producer(int mutex, int items, int spaces, int count) {
 	int i=0;
+	while(1){
 	// rand_delay(maxDelay);
 	wait(spaces);
 	
@@ -20,4 +21,5 @@ void producer(int mutex, int items, int spaces, int count) {
 	signal(mutex);
 	
 	signal(items);
+	}
 }
