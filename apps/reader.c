@@ -1,4 +1,3 @@
-
 #include <xinu.h>
 #include <string.h>
 #include <stdio.h>
@@ -6,7 +5,6 @@
 #include <stddef.h>
 
 #include <reader_writer.h>
-#include <reader.h>
 
 void rand_delay2(int uS_max);
 
@@ -18,7 +16,6 @@ void rand_delay2(int uS_max)
 }
 
 void reader(int mutex, int roomEmpty, int readerNumber, int readCycles) {
-	//kprintf("Hello says Reader\n");
 	while(readArr[readerNumber] < readCycles){
 	wait(mutex);
 	readers = readers + 1;
@@ -27,14 +24,9 @@ void reader(int mutex, int roomEmpty, int readerNumber, int readCycles) {
 	}
 	signal(mutex);
 	
-	//TODO: read op here
-	//int i = 1;
-	//for(i=1; i<=readCycles; i++){
-	
 	readArr[readerNumber]++;
-		printf("Reader %d %d\n", readerNumber, readArr[readerNumber]);
-	//}
-
+	printf("Reader %d %d\n", readerNumber, readArr[readerNumber]);
+	
 	rand_delay2(maxDelay);
 
 	wait(mutex);

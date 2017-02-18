@@ -6,9 +6,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-#include<reader_writer.h>
-#include<reader.h>
-#include<writer.h>
+#include <reader_writer.h>
 
 volatile int readers;
 volatile int writers;
@@ -44,7 +42,7 @@ shellcmd xsh_readers_writers(int nargs, char *args[]) {
 	maxDelay = atoi(args[5]);
 	int i=0;
 	for(i=0; i<nReaders; i++){
-		//create a reader process	
+		//create a reader process
 		resume(create(reader, 4096, 20, "reader", 4, mutex, roomEmpty, i, readCycles));	
 	}
 
