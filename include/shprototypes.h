@@ -84,3 +84,6 @@ extern  shellcmd xsh_process_ring	(int32, char *[]);
 
 /* in file xsh_dining_philosophers.c */
 extern 	shellcmd xsh_dining_philosophers	(int32,	char *[]);
+
+/* in file xsh_readers_writers.c */
+extern shellcmd xsh_readers_writers (int32, char *[]);
