@@ -7,12 +7,17 @@
 #include <stddef.h>
 
 #include<producer_consumer.h>
-#include<producer.h>
-#include<consumer.h>
+// #include<producer.h>
+// #include<consumer.h>
 
-//volatile char* buffer;
-volatile int buffer;
+volatile unsigned char* buffer;
+// volatile int buffer;
 volatile int maxDelay;
+volatile unsigned char counter;
+volatile int n;
+volatile int in;
+volatile int out;
+volatile int count;
 
 /*------------------------------------------------------------------------
  * xsh_producer_consumer - Producer Consumer Problem
@@ -22,9 +27,14 @@ shellcmd xsh_producer_consumer(int nargs, char *args[]) {
 	/*
 	cmd usage: producer_consumer <buffer size in bytes> <bytes to send> <max delay>
 	*/
-	
-	//buffer = getmem(atoi(args[1]));
-	buffer = atoi(args[1]);
+
+	counter = 0x00;
+	n = atoi(args[1]);
+	in =0;
+	out=0;
+
+	buffer = getmem(atoi(args[1]));
+	// buffer = atoi(args[1]);
 	int count;
 	count = atoi(args[2]);
 	
@@ -35,14 +45,14 @@ shellcmd xsh_producer_consumer(int nargs, char *args[]) {
 	int spaces;
 	
 	mutex = semcreate(1);
-	items = semcreate(0);
 	spaces = semcreate(atoi(args[1])); //buffer size
+	items = semcreate(0);
 	
 	//create a producer process
-	resume(create(producer, 1024, 20, "producer", 3, mutex, items, spaces, count));
+	resume(create(producer, 1024, 20, "producer", 4, mutex, items, spaces, count));
 
 	//create a consumer process
-	resume(create(consumer, 1024, 20, "consumer", 3, mutex, items, spaces, count));
+	resume(create(consumer, 1024, 20, "consumer", 4, mutex, items, spaces, count));
 
 	return 0;
 }

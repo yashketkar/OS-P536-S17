@@ -1,10 +1,9 @@
 #include<producer_consumer.h>
-#include<producer.h>
+// #include<producer.h>
 
 
 void producer(int mutex, int items, int spaces, int count) {
-	int i=0;
-	while(1){
+	while(count > 0){
 	// rand_delay(maxDelay);
 	wait(spaces);
 	
@@ -16,8 +15,12 @@ void producer(int mutex, int items, int spaces, int count) {
 	    }
 	    count = count - 1;	
 	}*/
-	buffer = buffer + 1;	
-	kprintf("Producer: %d\n", buffer);
+	// buffer = buffer + 1;
+	buffer[in] = counter;
+	kprintf("Producer: %d\n", buffer[in]);
+	counter = (counter+1)%0xff;
+	in = (in + 1)%n;
+
 	signal(mutex);
 	
 	signal(items);
