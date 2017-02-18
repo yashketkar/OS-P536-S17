@@ -10,7 +10,9 @@
 #include<producer.h>
 #include<consumer.h>
 
-volatile char* buffer;
+//volatile char* buffer;
+volatile int buffer;
+volatile int maxDelay;
 
 /*------------------------------------------------------------------------
  * xsh_producer_consumer - Producer Consumer Problem
@@ -21,10 +23,11 @@ shellcmd xsh_producer_consumer(int nargs, char *args[]) {
 	cmd usage: producer_consumer <buffer size in bytes> <bytes to send> <max delay>
 	*/
 	
-	buffer = getmem(atoi(args[1]));
+	//buffer = getmem(atoi(args[1]));
+	buffer = atoi(args[1]);
 	int count;
 	count = atoi(args[2]);
-	int maxDelay;
+	
 	maxDelay = atoi(args[3]);	
 
 	int mutex;
