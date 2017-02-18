@@ -12,6 +12,7 @@
 
 volatile int readers;
 volatile int writers;
+volatile int maxDelay;
 /*------------------------------------------------------------------------
  * xsh_readers_writers - Readers Writers Problem
  *------------------------------------------------------------------------
@@ -34,7 +35,7 @@ shellcmd xsh_readers_writers(int nargs, char *args[]) {
 	int writeCycles = atoi(args[3]);
 	int readCycles = atoi(args[4]);
 
-	int maxDelay = atoi(args[5]);
+	maxDelay = atoi(args[5]);
 	int i=1;
 	for(i=1; i<=nReaders; i++){
 		//create a reader process	

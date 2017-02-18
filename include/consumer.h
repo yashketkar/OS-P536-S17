@@ -1,1 +1,1 @@
-void consumer(int, int, int);
+void consumer(int, int, int, int);

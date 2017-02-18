@@ -1,1 +1,1 @@
-void producer(int, int, int);
+void producer(int, int, int, int);

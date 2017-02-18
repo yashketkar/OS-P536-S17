@@ -1,1 +1,1 @@
-extern volatile int buffer;
+extern volatile char* buffer;
