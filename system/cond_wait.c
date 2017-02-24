@@ -12,6 +12,10 @@ syscall cond_wait( cond_t* cv, mutex_t* lock )
 	//Wait on the condition variable. 
 	//While the process is waiting the lock should be released so that other processes may obtain it.
 
+	//while(cv->q)
+	//release lock so someone else can get in
+	mutex_unlock(lock);
+
 	restore(mask);
-	return cv->val;
+	return 0;
 }

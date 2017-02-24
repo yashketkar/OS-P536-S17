@@ -3,7 +3,8 @@
 /* condition variable struct */
 
 typedef struct {
-    int32 val;
+    queent q;
+    mutex_t lock;
 } cond_t;
 
 extern syscall cond_init(cond_t* cv);

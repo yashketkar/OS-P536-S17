@@ -10,7 +10,8 @@ syscall cond_signal( cond_t* cv )
 	
 	//TODO
 	//Wake up at least one of the processes waiting on the condition variable.
+	resume(cv->q->dequeue());
 	
 	restore(mask);
-	return cv->val;
+	return 0;
 }

@@ -10,8 +10,9 @@ syscall cond_init( cond_t* cv )
 	
 	//TODO
 	//Create a condition variable and set its initial state.
-	cv->val = 0;
+	cv->q->queinit();
+	mutex_lock(cv->lock);
 
 	restore(mask);
-	return cv->val;
+	return 0;
 }
