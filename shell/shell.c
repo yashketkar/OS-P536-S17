@@ -24,6 +24,7 @@ const	struct	cmdent	cmdtab[] = {
 	{"uptime",	FALSE,	xsh_uptime},
 	{"producer-consumer",	FALSE,	xsh_producer_consumer},
 	{"readers-writers",	FALSE,	xsh_readers_writers},
+	{"babybird",	FALSE,	xsh_babybird},
 #ifdef ARM_BBB
   {"arp",		FALSE,	xsh_arp},
   {"ipaddr",	FALSE,	xsh_ipaddr},
