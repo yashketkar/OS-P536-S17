@@ -12,5 +12,5 @@ syscall mutex_create( mutex_t* lock )
 	lock->hold = false;
 
 	restore(mask);
-	return lock->val;
+	return 0;
 }
