@@ -9,7 +9,7 @@ syscall mutex_create( mutex_t* lock )
 	mask = disable();
 	
 	//Create a mutex and set its initial state.
-	lock->val = 0;
+	lock->hold = false;
 
 	restore(mask);
 	return lock->val;

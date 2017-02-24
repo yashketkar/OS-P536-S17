@@ -3,7 +3,7 @@
 /* mutex struct */
 
 typedef struct {
-    int32 val;
+    bool hold;
 } mutex_t;
 
 extern syscall mutex_create(mutex_t* lock);

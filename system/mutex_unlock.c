@@ -11,6 +11,8 @@ syscall mutex_unlock( mutex_t* lock )
 	//TODO
 	//Release the lock.
 	
+	lock->hold = false;
+
 	restore(mask);
-	return lock->val;
+	return 0;
 }
