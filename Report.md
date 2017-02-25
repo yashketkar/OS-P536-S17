@@ -12,7 +12,7 @@ In case the number of worms are 0 and are finished, then we use the condition va
 The parent bird then updates the worms value and uses another condition variable to signal the baby bird processes.
 
 # What is starvation? Is this protocol starvation-free?
-
-
+Starvation is when a thread is unable to access a shared resource because the other threads that are using it are not relinquishing control.
 
 # What is deadlock? Is this protocol deadlock-free?
+Deadlock is when multiple threads want to access the same resource but they are waiting for another thread to give up on a lock before they can acquire a resource.
