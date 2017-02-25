@@ -1,8 +1,6 @@
 #include <baby_bird.h>
-// #include <conditionvariable.h>
 
 void babybird(mutex_t* lock, cond_t* cvP, cond_t* cvC, int eat, int birdindex, int done) {
-// void babybird(int mutexP, int mutexC, int eat, int birdindex, int done) {
 	int eaten = 0;
 	int initial = 0;
 	while(eaten<eat){
@@ -10,7 +8,7 @@ void babybird(mutex_t* lock, cond_t* cvP, cond_t* cvC, int eat, int birdindex, i
  			cond_wait(cvC, lock);
 		 }
 		initial++;
-		mutex_lock(lock);
+		// mutex_lock(lock);
 		worms = worms - 1;
 		eaten = eaten + 1;
 		kprintf("Baby bird %d ate a worm! (%d total)\n", birdindex, eaten);
@@ -19,9 +17,9 @@ void babybird(mutex_t* lock, cond_t* cvP, cond_t* cvC, int eat, int birdindex, i
 			cond_signal(cvP);
 		}
 		else {
-
+			cond_signal(cvC);
 		}
-		mutex_unlock(lock);
-		cond_signal(cvC);
+		// mutex_unlock(lock);
+		
 	}
 }

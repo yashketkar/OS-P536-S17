@@ -7,7 +7,6 @@
 #include <stddef.h>
 
 #include <baby_bird.h>
-// #include <conditionvariable.h>
 
 /*------------------------------------------------------------------------
  * xsh_babybird - Baby Bird Program
@@ -16,7 +15,7 @@
 
 volatile int worms=0;
 volatile int done;
-int babies;
+int num_baby_birds;
 int fetch;
 int eat;
 
@@ -35,54 +34,34 @@ shellcmd xsh_babybird(int nargs, char *args[]) {
 
 	if (nargs == 1) {
 		// default mode
-		babies = 5;
+		num_baby_birds = 5;
 		fetch = 10;
-		eat = 5;
+		eat = 10;
 
-		// mutex_t parent_lock;
-		// mutex_create(&parent_lock);
-
-		mutex_t* lock = getmem(sizeof(mutex_t));
+		mutex_t* lock = (mutex_t*)getmem(sizeof(mutex_t));
 		mutex_create(lock);
 
-		cond_t* cvP = getmem(sizeof(cond_t));
+		cond_t* cvP = (cond_t*)getmem(sizeof(cond_t));
 		cond_init(cvP);
 
-		cond_t* cvC = getmem(sizeof(cond_t));
+		cond_t* cvC = (cond_t*)getmem(sizeof(cond_t));
 		cond_init(cvC);
-
-		// int mutexP = semcreate(1);
-		// int mutexC = semcreate(0);
 
 		done = 0;
 
-		// fprintf(stderr, "Please enter correct arguments\n");
-
-		// int initial = 0;
-
 		int i=0;
-		for(i=0;i<babies;i++){
+		for(i=0;i<num_baby_birds;i++){
 			//create a consumer process
 			printf("Created Baby Bird #%d\n", i+1);
 			pid32 mypid;
-			// resume(create(babybird, 1024, 20, "babybird", 5, mutexP, mutexC, eat, i+1, done));
 			mypid = create(babybird, 1024, 20, "babybird", 6, lock, cvP, cvC, eat, i+1, done);
 			insertinQueue(cvC, mypid);
 		}
 
 		//create a producer process
 		printf("Created Parent Bird \n");
-		// pid32 parentid = create(parentbird, 1024, 20, "parentbird", 4, mutexP, mutexC, fetch, done);
-		// printf("Lock inside address is %x \n", lock);
 		pid32 parentid = create(parentbird, 1024, 20, "parentbird", 5, lock, cvP, cvC, fetch);
-
-		// insertinQueue(cvP, parentid);
-
 		resume(parentid);
-
-
-
-
 
 		return 0;
 	}
@@ -110,8 +89,8 @@ shellcmd xsh_babybird(int nargs, char *args[]) {
 
 	// Correct Arguments Run Program Now
 	// To Do
-
 	//true input
+
 	int i = 0;
 	int command = 0;
 	
@@ -120,13 +99,13 @@ shellcmd xsh_babybird(int nargs, char *args[]) {
 		//int command = validateAndGetCommand(args[i]);
 		if(strncmp(args[i], "--babies", 12) == 0 || strncmp(args[i], "-b", 3) == 0){
 			command = 1;
-			babies = atoi(args[i+1]);
-			if(babies > 100 || babies < 1){
+			num_baby_birds = atoi(args[i+1]);
+			if(num_baby_birds > 100 || num_baby_birds < 1){
 				//too many processes are denied
 				printf("Too many or too less babybirds\n");
-				babies = 4;
+				num_baby_birds = 4;
 			}
-			printf("Number of babybirds = %d\n", babies);
+			printf("Number of babybirds = %d\n", num_baby_birds);
 		}
 		if(strncmp(args[i], "--fetch", 9) == 0 || strncmp(args[i], "-f", 3) == 0){
 			command = 2;
@@ -155,8 +134,29 @@ shellcmd xsh_babybird(int nargs, char *args[]) {
 		}
 	}
 
-	// Normal Behaviour
+	mutex_t* lock = (mutex_t*)getmem(sizeof(mutex_t));
+	mutex_create(lock);
 
+	cond_t* cvP = (cond_t*)getmem(sizeof(cond_t));
+	cond_init(cvP);
+
+	cond_t* cvC = (cond_t*)getmem(sizeof(cond_t));
+	cond_init(cvC);
+
+	done = 0;
+
+	for(i=0;i<num_baby_birds;i++){
+		//create a consumer process
+		printf("Created Baby Bird #%d\n", i+1);
+		pid32 mypid;
+		mypid = create(babybird, 1024, 20, "babybird", 6, lock, cvP, cvC, eat, i+1, done);
+		insertinQueue(cvC, mypid);
+	}
+
+	//create a producer process
+	printf("Created Parent Bird \n");
+	pid32 parentid = create(parentbird, 1024, 20, "parentbird", 5, lock, cvP, cvC, fetch);
+	resume(parentid);
 
 	return 0;
 }

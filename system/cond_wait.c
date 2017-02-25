@@ -14,21 +14,7 @@ syscall cond_wait(cond_t* cv, mutex_t* mutex)
 
     mutex_lock(cv->qm);  /* protect the queue */
     pid32 mypid = getpid();
-
-    // printf("Enqueuing %d", mypid);
-    
-    // int i=0;
-    // printf("$$");
-    // for(i=cv->front;i<cv->rear;i++)
-    // {
-    //     printf("%d \t",cv->queue[i]);
-    // }
-    // printf("$$\n\n");
     cv->queue[++cv->rear] = mypid;
-
-    // enqueue(mypid, cv->q);
-
-
     mutex_unlock(cv->qm); /* we're done with the list */
   
     mutex_unlock(mutex);

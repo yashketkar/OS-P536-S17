@@ -11,8 +11,6 @@ typedef struct mutex_t mutex_t;
 struct cond_t
 {
 	mutex_t* qm;
-    // pid32 queue*;
-    //qid16 q;
     pid32 queue[1024];
     int front;
     int rear;

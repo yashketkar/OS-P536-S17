@@ -11,13 +11,13 @@ void parentbird(mutex_t* lock, cond_t* cvP, cond_t* cvC, int fetch) {
 		// wait(mutexP);
 		if(initial > 0)
 		{
-		cond_wait(cvP,lock);
+			cond_wait(cvP,lock);
 		}
 		initial++;
-			mutex_lock(lock);
-				worms = worms + fetch;
-				kprintf("Parent bird filled the dish with %d worms!\n", fetch);
-			mutex_unlock(lock);
+		// mutex_lock(lock);
+		worms = worms + fetch;
+		kprintf("Parent bird filled the dish with %d worms!\n", fetch);
+		// mutex_unlock(lock);
 
 		cond_signal(cvC);
 		// signal(mutexC);
