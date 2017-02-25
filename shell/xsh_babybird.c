@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+#include <babybird.h>
+
+volatile int wormPool;
+volatile convar* globalCV;
 int babies;
 int wormsFetch;
 int wormsEat;
@@ -19,13 +23,15 @@ shellcmd xsh_babybird(int nargs, char *args[]) {
 	babies = 2;
 	wormsFetch = 3;
 	wormsEat = 2;	
-
+	wormsPool = 0;
 	/*
 	cmd usage: babybird -b/--babies <num babies> -f/--fetch <num worms fetch> -e/--eat <num worms eat>
 			   babybird -h --help
 	*/
 	printf("Hello from Babybird command \n");
 
+	//create globalCV
+	globalCV = cond_init();
 	/* Output info for '--help' argument */
 
 	if (nargs == 2 && (strncmp(args[1], "--help", 7) == 0) || (strncmp(args[1], "-h", 3) == 0)) {
@@ -41,6 +47,16 @@ shellcmd xsh_babybird(int nargs, char *args[]) {
 	//Fall to Default Gracefully
 	if (nargs == 1) {
 		//TODO
+
+		//create processes for babies
+		int j;
+		for(j=1; j<=babies; j++){
+			resume(create(baby, 1024, 20, "baby", 2, j, wormsEat));
+		}
+
+		//create process for parent
+		resume(create(parent, 1024, 20, "parent", 1, wormsFetch));
+
 		return 0;
 	}
 
@@ -108,7 +124,13 @@ shellcmd xsh_babybird(int nargs, char *args[]) {
 
 	}
 	
-	//TODO
-	
+	//create processes for babies
+	for(j=1; j<=babies; j++){
+		resume(create(baby, 1024, 20, "baby", 2, j, wormsEat));
+	}
+
+	//create process for parent
+	resume(create(parent, 1024, 20, "parent", 1, wormsFetch));
+
 	return 0;
 }
