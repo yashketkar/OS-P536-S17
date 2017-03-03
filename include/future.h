@@ -18,8 +18,8 @@ typedef struct {
   future_state_t state;
   future_mode_t mode;
   pid32 pid;
-  yourtype set_queue;
-  yourtype get_queue;
+  //yourtype set_queue;
+  //yourtype get_queue;
 } future_t;
 
 /* Interface for the Futures system calls */
