@@ -29,7 +29,7 @@ typedef struct {
 } future_t;
 
 /* Interface for the Futures system calls */
-future_t* future_alloc(future_mode_t mode);
+future_t* future_alloc(future_mode_t);
 syscall future_free(future_t*);
 syscall future_get(future_t*, int*);
 syscall future_set(future_t*, int);

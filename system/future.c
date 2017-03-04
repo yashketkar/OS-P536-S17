@@ -30,14 +30,29 @@ syscall future_free(future_t* f){
 }
 
 syscall future_get(future_t* f, int* value){
-	//TODO wait and obtain
-	value = &(f->value);
-	f->state = FUTURE_EMPTY;
-	return 0; //TODO return SYSERR or OK
+	//check for exclusive mode
+	if(f->mode == FUTURE_EXCLUSIVE){
+		if(f->state == FUTURE_READY){
+			*value = f->value;
+			f->state = FUTURE_EMPTY;
+			return OK;
+		}
+	}
+	else{
+		while(1){
+			if(f->state == FUTURE_READY){
+				break;
+			}
+		}
+		*value = f->value;
+		f->state = FUTURE_EMPTY;
+		return OK;
+	}
+	return OK;
 }
 
 syscall future_set(future_t* f, int value){
 	f->value = value;
 	f->state = FUTURE_READY;
-	return 0; //TODO return SYSERR or OK
+	return OK;
 }
