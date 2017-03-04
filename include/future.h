@@ -1,6 +1,12 @@
 #ifndef _FUTURE_H_
 #define _FUTURE_H_  
 
+//http://www.learn-c.org/en/Linked_lists
+typedef struct node{
+    int val;
+    struct node* next;
+} node_t;
+
 typedef enum {
   FUTURE_EMPTY,
   FUTURE_WAITING,
@@ -18,8 +24,8 @@ typedef struct {
   future_state_t state;
   future_mode_t mode;
   pid32 pid;
-  //yourtype set_queue;
-  //yourtype get_queue;
+  node_t* set_queue;
+  node_t* get_queue;
 } future_t;
 
 /* Interface for the Futures system calls */
